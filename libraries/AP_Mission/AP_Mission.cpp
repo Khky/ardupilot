@@ -76,6 +76,50 @@ void AP_Mission::init()
             }
         }
     }
+
+// Handle DO_WINCH command
+bool AP_Mission::start_command_do_winch(const Mission_Command& cmd) {
+    // Retrieve parameters
+    int winch_no = (int)cmd.content.winch.num;
+    float action = cmd.content.winch.action;
+    float length = cmd.content.winch.release_length;
+    float rate = cmd.content.winch.release_rate;
+
+    // Log execution
+    GCS_SEND_TEXT(MAV_SEVERITY_INFO, "Executing DO_WINCH: winch_no=%d, action=%.2f, length=%.2f, rate=%.2f", 
+                  winch_no, action, length, rate);
+
+    // Validate winch number
+    if (winch_no < 0 || winch_no >= MAX_WINCHES) {
+        GCS_SEND_TEXT(MAV_SEVERITY_ERROR, "Invalid winch number");
+        return false;
+    }
+
+    // Add hardware control logic here
+    // Example:
+    // winch_controller[winch_no].set_action(action, length, rate);
+
+    return true;
+}
+
+bool AP_Mission::verify_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return true;
+    default:
+        return _cmd_verify_fn(cmd);
+    }
+}
+
+bool AP_Mission::start_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return start_command_do_winch(cmd);
+    default:
+        return _cmd_start_fn(cmd);
+    }
+}
+
 #endif
 
     // work out maximum index for our storage size
@@ -371,6 +415,50 @@ bool AP_Mission::verify_command(const Mission_Command& cmd)
     // do-commands always return true for verify:
 #if AP_GRIPPER_ENABLED
     case MAV_CMD_DO_GRIPPER:
+
+// Handle DO_WINCH command
+bool AP_Mission::start_command_do_winch(const Mission_Command& cmd) {
+    // Retrieve parameters
+    int winch_no = (int)cmd.content.winch.num;
+    float action = cmd.content.winch.action;
+    float length = cmd.content.winch.release_length;
+    float rate = cmd.content.winch.release_rate;
+
+    // Log execution
+    GCS_SEND_TEXT(MAV_SEVERITY_INFO, "Executing DO_WINCH: winch_no=%d, action=%.2f, length=%.2f, rate=%.2f", 
+                  winch_no, action, length, rate);
+
+    // Validate winch number
+    if (winch_no < 0 || winch_no >= MAX_WINCHES) {
+        GCS_SEND_TEXT(MAV_SEVERITY_ERROR, "Invalid winch number");
+        return false;
+    }
+
+    // Add hardware control logic here
+    // Example:
+    // winch_controller[winch_no].set_action(action, length, rate);
+
+    return true;
+}
+
+bool AP_Mission::verify_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return true;
+    default:
+        return _cmd_verify_fn(cmd);
+    }
+}
+
+bool AP_Mission::start_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return start_command_do_winch(cmd);
+    default:
+        return _cmd_start_fn(cmd);
+    }
+}
+
 #endif
     case MAV_CMD_DO_SET_SERVO:
     case MAV_CMD_DO_SET_RELAY:
@@ -408,6 +496,50 @@ bool AP_Mission::start_command(const Mission_Command& cmd)
             logger.Write_MISE(*this, cmd);
         }
     }
+
+// Handle DO_WINCH command
+bool AP_Mission::start_command_do_winch(const Mission_Command& cmd) {
+    // Retrieve parameters
+    int winch_no = (int)cmd.content.winch.num;
+    float action = cmd.content.winch.action;
+    float length = cmd.content.winch.release_length;
+    float rate = cmd.content.winch.release_rate;
+
+    // Log execution
+    GCS_SEND_TEXT(MAV_SEVERITY_INFO, "Executing DO_WINCH: winch_no=%d, action=%.2f, length=%.2f, rate=%.2f", 
+                  winch_no, action, length, rate);
+
+    // Validate winch number
+    if (winch_no < 0 || winch_no >= MAX_WINCHES) {
+        GCS_SEND_TEXT(MAV_SEVERITY_ERROR, "Invalid winch number");
+        return false;
+    }
+
+    // Add hardware control logic here
+    // Example:
+    // winch_controller[winch_no].set_action(action, length, rate);
+
+    return true;
+}
+
+bool AP_Mission::verify_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return true;
+    default:
+        return _cmd_verify_fn(cmd);
+    }
+}
+
+bool AP_Mission::start_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return start_command_do_winch(cmd);
+    default:
+        return _cmd_start_fn(cmd);
+    }
+}
+
 #endif
 
     // check for landing related commands and set flags
@@ -441,10 +573,98 @@ bool AP_Mission::start_command(const Mission_Command& cmd)
 #if AP_RC_CHANNEL_ENABLED
     case MAV_CMD_DO_AUX_FUNCTION:
         return start_command_do_aux_function(cmd);
+
+// Handle DO_WINCH command
+bool AP_Mission::start_command_do_winch(const Mission_Command& cmd) {
+    // Retrieve parameters
+    int winch_no = (int)cmd.content.winch.num;
+    float action = cmd.content.winch.action;
+    float length = cmd.content.winch.release_length;
+    float rate = cmd.content.winch.release_rate;
+
+    // Log execution
+    GCS_SEND_TEXT(MAV_SEVERITY_INFO, "Executing DO_WINCH: winch_no=%d, action=%.2f, length=%.2f, rate=%.2f", 
+                  winch_no, action, length, rate);
+
+    // Validate winch number
+    if (winch_no < 0 || winch_no >= MAX_WINCHES) {
+        GCS_SEND_TEXT(MAV_SEVERITY_ERROR, "Invalid winch number");
+        return false;
+    }
+
+    // Add hardware control logic here
+    // Example:
+    // winch_controller[winch_no].set_action(action, length, rate);
+
+    return true;
+}
+
+bool AP_Mission::verify_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return true;
+    default:
+        return _cmd_verify_fn(cmd);
+    }
+}
+
+bool AP_Mission::start_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return start_command_do_winch(cmd);
+    default:
+        return _cmd_start_fn(cmd);
+    }
+}
+
 #endif
 #if AP_GRIPPER_ENABLED
     case MAV_CMD_DO_GRIPPER:
         return start_command_do_gripper(cmd);
+
+// Handle DO_WINCH command
+bool AP_Mission::start_command_do_winch(const Mission_Command& cmd) {
+    // Retrieve parameters
+    int winch_no = (int)cmd.content.winch.num;
+    float action = cmd.content.winch.action;
+    float length = cmd.content.winch.release_length;
+    float rate = cmd.content.winch.release_rate;
+
+    // Log execution
+    GCS_SEND_TEXT(MAV_SEVERITY_INFO, "Executing DO_WINCH: winch_no=%d, action=%.2f, length=%.2f, rate=%.2f", 
+                  winch_no, action, length, rate);
+
+    // Validate winch number
+    if (winch_no < 0 || winch_no >= MAX_WINCHES) {
+        GCS_SEND_TEXT(MAV_SEVERITY_ERROR, "Invalid winch number");
+        return false;
+    }
+
+    // Add hardware control logic here
+    // Example:
+    // winch_controller[winch_no].set_action(action, length, rate);
+
+    return true;
+}
+
+bool AP_Mission::verify_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return true;
+    default:
+        return _cmd_verify_fn(cmd);
+    }
+}
+
+bool AP_Mission::start_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return start_command_do_winch(cmd);
+    default:
+        return _cmd_start_fn(cmd);
+    }
+}
+
 #endif
 #if AP_SERVORELAYEVENTS_ENABLED
     case MAV_CMD_DO_SET_SERVO:
@@ -452,6 +672,50 @@ bool AP_Mission::start_command(const Mission_Command& cmd)
     case MAV_CMD_DO_REPEAT_SERVO:
     case MAV_CMD_DO_REPEAT_RELAY:
         return start_command_do_servorelayevents(cmd);
+
+// Handle DO_WINCH command
+bool AP_Mission::start_command_do_winch(const Mission_Command& cmd) {
+    // Retrieve parameters
+    int winch_no = (int)cmd.content.winch.num;
+    float action = cmd.content.winch.action;
+    float length = cmd.content.winch.release_length;
+    float rate = cmd.content.winch.release_rate;
+
+    // Log execution
+    GCS_SEND_TEXT(MAV_SEVERITY_INFO, "Executing DO_WINCH: winch_no=%d, action=%.2f, length=%.2f, rate=%.2f", 
+                  winch_no, action, length, rate);
+
+    // Validate winch number
+    if (winch_no < 0 || winch_no >= MAX_WINCHES) {
+        GCS_SEND_TEXT(MAV_SEVERITY_ERROR, "Invalid winch number");
+        return false;
+    }
+
+    // Add hardware control logic here
+    // Example:
+    // winch_controller[winch_no].set_action(action, length, rate);
+
+    return true;
+}
+
+bool AP_Mission::verify_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return true;
+    default:
+        return _cmd_verify_fn(cmd);
+    }
+}
+
+bool AP_Mission::start_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return start_command_do_winch(cmd);
+    default:
+        return _cmd_start_fn(cmd);
+    }
+}
+
 #endif
 #if AP_CAMERA_ENABLED
     case MAV_CMD_DO_DIGICAM_CONFIGURE:
@@ -465,10 +729,98 @@ bool AP_Mission::start_command(const Mission_Command& cmd)
     case MAV_CMD_VIDEO_START_CAPTURE:
     case MAV_CMD_VIDEO_STOP_CAPTURE:
         return start_command_camera(cmd);
+
+// Handle DO_WINCH command
+bool AP_Mission::start_command_do_winch(const Mission_Command& cmd) {
+    // Retrieve parameters
+    int winch_no = (int)cmd.content.winch.num;
+    float action = cmd.content.winch.action;
+    float length = cmd.content.winch.release_length;
+    float rate = cmd.content.winch.release_rate;
+
+    // Log execution
+    GCS_SEND_TEXT(MAV_SEVERITY_INFO, "Executing DO_WINCH: winch_no=%d, action=%.2f, length=%.2f, rate=%.2f", 
+                  winch_no, action, length, rate);
+
+    // Validate winch number
+    if (winch_no < 0 || winch_no >= MAX_WINCHES) {
+        GCS_SEND_TEXT(MAV_SEVERITY_ERROR, "Invalid winch number");
+        return false;
+    }
+
+    // Add hardware control logic here
+    // Example:
+    // winch_controller[winch_no].set_action(action, length, rate);
+
+    return true;
+}
+
+bool AP_Mission::verify_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return true;
+    default:
+        return _cmd_verify_fn(cmd);
+    }
+}
+
+bool AP_Mission::start_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return start_command_do_winch(cmd);
+    default:
+        return _cmd_start_fn(cmd);
+    }
+}
+
 #endif
 #if AP_FENCE_ENABLED
     case MAV_CMD_DO_FENCE_ENABLE:
         return start_command_fence(cmd);
+
+// Handle DO_WINCH command
+bool AP_Mission::start_command_do_winch(const Mission_Command& cmd) {
+    // Retrieve parameters
+    int winch_no = (int)cmd.content.winch.num;
+    float action = cmd.content.winch.action;
+    float length = cmd.content.winch.release_length;
+    float rate = cmd.content.winch.release_rate;
+
+    // Log execution
+    GCS_SEND_TEXT(MAV_SEVERITY_INFO, "Executing DO_WINCH: winch_no=%d, action=%.2f, length=%.2f, rate=%.2f", 
+                  winch_no, action, length, rate);
+
+    // Validate winch number
+    if (winch_no < 0 || winch_no >= MAX_WINCHES) {
+        GCS_SEND_TEXT(MAV_SEVERITY_ERROR, "Invalid winch number");
+        return false;
+    }
+
+    // Add hardware control logic here
+    // Example:
+    // winch_controller[winch_no].set_action(action, length, rate);
+
+    return true;
+}
+
+bool AP_Mission::verify_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return true;
+    default:
+        return _cmd_verify_fn(cmd);
+    }
+}
+
+bool AP_Mission::start_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return start_command_do_winch(cmd);
+    default:
+        return _cmd_start_fn(cmd);
+    }
+}
+
 #endif
     case MAV_CMD_DO_PARACHUTE:
         return start_command_parachute(cmd);
@@ -841,6 +1193,50 @@ bool AP_Mission::read_cmd_from_storage(uint16_t index, Mission_Command& cmd) con
         if (b1 == 0) {
             AP_HAL::panic("May not store location for 16-bit commands");
         }
+
+// Handle DO_WINCH command
+bool AP_Mission::start_command_do_winch(const Mission_Command& cmd) {
+    // Retrieve parameters
+    int winch_no = (int)cmd.content.winch.num;
+    float action = cmd.content.winch.action;
+    float length = cmd.content.winch.release_length;
+    float rate = cmd.content.winch.release_rate;
+
+    // Log execution
+    GCS_SEND_TEXT(MAV_SEVERITY_INFO, "Executing DO_WINCH: winch_no=%d, action=%.2f, length=%.2f, rate=%.2f", 
+                  winch_no, action, length, rate);
+
+    // Validate winch number
+    if (winch_no < 0 || winch_no >= MAX_WINCHES) {
+        GCS_SEND_TEXT(MAV_SEVERITY_ERROR, "Invalid winch number");
+        return false;
+    }
+
+    // Add hardware control logic here
+    // Example:
+    // winch_controller[winch_no].set_action(action, length, rate);
+
+    return true;
+}
+
+bool AP_Mission::verify_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return true;
+    default:
+        return _cmd_verify_fn(cmd);
+    }
+}
+
+bool AP_Mission::start_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return start_command_do_winch(cmd);
+    default:
+        return _cmd_start_fn(cmd);
+    }
+}
+
 #endif
         // Location is not PACKED; field-wise copy it:
         cmd.content.location.relative_alt = packed_content.location.flags.relative_alt;
@@ -1061,6 +1457,50 @@ MAV_MISSION_RESULT AP_Mission::mavlink_int_to_mission_cmd(const mavlink_mission_
 #else
         // delay at waypoint in seconds (this is for copters???)
         cmd.p1 = packet.param1;
+
+// Handle DO_WINCH command
+bool AP_Mission::start_command_do_winch(const Mission_Command& cmd) {
+    // Retrieve parameters
+    int winch_no = (int)cmd.content.winch.num;
+    float action = cmd.content.winch.action;
+    float length = cmd.content.winch.release_length;
+    float rate = cmd.content.winch.release_rate;
+
+    // Log execution
+    GCS_SEND_TEXT(MAV_SEVERITY_INFO, "Executing DO_WINCH: winch_no=%d, action=%.2f, length=%.2f, rate=%.2f", 
+                  winch_no, action, length, rate);
+
+    // Validate winch number
+    if (winch_no < 0 || winch_no >= MAX_WINCHES) {
+        GCS_SEND_TEXT(MAV_SEVERITY_ERROR, "Invalid winch number");
+        return false;
+    }
+
+    // Add hardware control logic here
+    // Example:
+    // winch_controller[winch_no].set_action(action, length, rate);
+
+    return true;
+}
+
+bool AP_Mission::verify_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return true;
+    default:
+        return _cmd_verify_fn(cmd);
+    }
+}
+
+bool AP_Mission::start_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return start_command_do_winch(cmd);
+    default:
+        return _cmd_start_fn(cmd);
+    }
+}
+
 #endif
     }
     break;
@@ -1136,6 +1576,50 @@ MAV_MISSION_RESULT AP_Mission::mavlink_int_to_mission_cmd(const mavlink_mission_
 #else
         cmd.p1 = packet.param1;                         // delay at waypoint in seconds
         break;
+
+// Handle DO_WINCH command
+bool AP_Mission::start_command_do_winch(const Mission_Command& cmd) {
+    // Retrieve parameters
+    int winch_no = (int)cmd.content.winch.num;
+    float action = cmd.content.winch.action;
+    float length = cmd.content.winch.release_length;
+    float rate = cmd.content.winch.release_rate;
+
+    // Log execution
+    GCS_SEND_TEXT(MAV_SEVERITY_INFO, "Executing DO_WINCH: winch_no=%d, action=%.2f, length=%.2f, rate=%.2f", 
+                  winch_no, action, length, rate);
+
+    // Validate winch number
+    if (winch_no < 0 || winch_no >= MAX_WINCHES) {
+        GCS_SEND_TEXT(MAV_SEVERITY_ERROR, "Invalid winch number");
+        return false;
+    }
+
+    // Add hardware control logic here
+    // Example:
+    // winch_controller[winch_no].set_action(action, length, rate);
+
+    return true;
+}
+
+bool AP_Mission::verify_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return true;
+    default:
+        return _cmd_verify_fn(cmd);
+    }
+}
+
+bool AP_Mission::start_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return start_command_do_winch(cmd);
+    default:
+        return _cmd_start_fn(cmd);
+    }
+}
+
 #endif
 
     case MAV_CMD_NAV_GUIDED_ENABLE:                     // MAV ID: 92
@@ -1271,6 +1755,50 @@ MAV_MISSION_RESULT AP_Mission::mavlink_int_to_mission_cmd(const mavlink_mission_
         cmd.content.gripper.num = packet.param1;        // gripper number
         cmd.content.gripper.action = packet.param2;     // action 0=release, 1=grab.  See GRIPPER_ACTION enum
         break;
+
+// Handle DO_WINCH command
+bool AP_Mission::start_command_do_winch(const Mission_Command& cmd) {
+    // Retrieve parameters
+    int winch_no = (int)cmd.content.winch.num;
+    float action = cmd.content.winch.action;
+    float length = cmd.content.winch.release_length;
+    float rate = cmd.content.winch.release_rate;
+
+    // Log execution
+    GCS_SEND_TEXT(MAV_SEVERITY_INFO, "Executing DO_WINCH: winch_no=%d, action=%.2f, length=%.2f, rate=%.2f", 
+                  winch_no, action, length, rate);
+
+    // Validate winch number
+    if (winch_no < 0 || winch_no >= MAX_WINCHES) {
+        GCS_SEND_TEXT(MAV_SEVERITY_ERROR, "Invalid winch number");
+        return false;
+    }
+
+    // Add hardware control logic here
+    // Example:
+    // winch_controller[winch_no].set_action(action, length, rate);
+
+    return true;
+}
+
+bool AP_Mission::verify_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return true;
+    default:
+        return _cmd_verify_fn(cmd);
+    }
+}
+
+bool AP_Mission::start_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return start_command_do_winch(cmd);
+    default:
+        return _cmd_start_fn(cmd);
+    }
+}
+
 #endif
 
     case MAV_CMD_DO_GUIDED_LIMITS:                      // MAV ID: 222
@@ -1316,6 +1844,50 @@ MAV_MISSION_RESULT AP_Mission::mavlink_int_to_mission_cmd(const mavlink_mission_
     case MAV_CMD_NAV_PAYLOAD_PLACE:
         cmd.p1 = packet.param1*100; // copy max-descend parameter (m->cm)
         break;
+
+// Handle DO_WINCH command
+bool AP_Mission::start_command_do_winch(const Mission_Command& cmd) {
+    // Retrieve parameters
+    int winch_no = (int)cmd.content.winch.num;
+    float action = cmd.content.winch.action;
+    float length = cmd.content.winch.release_length;
+    float rate = cmd.content.winch.release_rate;
+
+    // Log execution
+    GCS_SEND_TEXT(MAV_SEVERITY_INFO, "Executing DO_WINCH: winch_no=%d, action=%.2f, length=%.2f, rate=%.2f", 
+                  winch_no, action, length, rate);
+
+    // Validate winch number
+    if (winch_no < 0 || winch_no >= MAX_WINCHES) {
+        GCS_SEND_TEXT(MAV_SEVERITY_ERROR, "Invalid winch number");
+        return false;
+    }
+
+    // Add hardware control logic here
+    // Example:
+    // winch_controller[winch_no].set_action(action, length, rate);
+
+    return true;
+}
+
+bool AP_Mission::verify_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return true;
+    default:
+        return _cmd_verify_fn(cmd);
+    }
+}
+
+bool AP_Mission::start_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return start_command_do_winch(cmd);
+    default:
+        return _cmd_start_fn(cmd);
+    }
+}
+
 #endif
 
     case MAV_CMD_NAV_SET_YAW_SPEED:
@@ -1355,6 +1927,50 @@ MAV_MISSION_RESULT AP_Mission::mavlink_int_to_mission_cmd(const mavlink_mission_
         cmd.content.nav_script_time.arg3 = int16_t(packet.x);
         cmd.content.nav_script_time.arg4 = int16_t(packet.y);
         break;
+
+// Handle DO_WINCH command
+bool AP_Mission::start_command_do_winch(const Mission_Command& cmd) {
+    // Retrieve parameters
+    int winch_no = (int)cmd.content.winch.num;
+    float action = cmd.content.winch.action;
+    float length = cmd.content.winch.release_length;
+    float rate = cmd.content.winch.release_rate;
+
+    // Log execution
+    GCS_SEND_TEXT(MAV_SEVERITY_INFO, "Executing DO_WINCH: winch_no=%d, action=%.2f, length=%.2f, rate=%.2f", 
+                  winch_no, action, length, rate);
+
+    // Validate winch number
+    if (winch_no < 0 || winch_no >= MAX_WINCHES) {
+        GCS_SEND_TEXT(MAV_SEVERITY_ERROR, "Invalid winch number");
+        return false;
+    }
+
+    // Add hardware control logic here
+    // Example:
+    // winch_controller[winch_no].set_action(action, length, rate);
+
+    return true;
+}
+
+bool AP_Mission::verify_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return true;
+    default:
+        return _cmd_verify_fn(cmd);
+    }
+}
+
+bool AP_Mission::start_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return start_command_do_winch(cmd);
+    default:
+        return _cmd_start_fn(cmd);
+    }
+}
+
 #endif
 
     case MAV_CMD_NAV_ATTITUDE_TIME:
@@ -1459,6 +2075,50 @@ MAV_MISSION_RESULT AP_Mission::mavlink_int_to_mission_cmd(const mavlink_mission_
             // mark altitude as above terrain, not above home
             cmd.content.location.terrain_alt = 1;
             break;
+
+// Handle DO_WINCH command
+bool AP_Mission::start_command_do_winch(const Mission_Command& cmd) {
+    // Retrieve parameters
+    int winch_no = (int)cmd.content.winch.num;
+    float action = cmd.content.winch.action;
+    float length = cmd.content.winch.release_length;
+    float rate = cmd.content.winch.release_rate;
+
+    // Log execution
+    GCS_SEND_TEXT(MAV_SEVERITY_INFO, "Executing DO_WINCH: winch_no=%d, action=%.2f, length=%.2f, rate=%.2f", 
+                  winch_no, action, length, rate);
+
+    // Validate winch number
+    if (winch_no < 0 || winch_no >= MAX_WINCHES) {
+        GCS_SEND_TEXT(MAV_SEVERITY_ERROR, "Invalid winch number");
+        return false;
+    }
+
+    // Add hardware control logic here
+    // Example:
+    // winch_controller[winch_no].set_action(action, length, rate);
+
+    return true;
+}
+
+bool AP_Mission::verify_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return true;
+    default:
+        return _cmd_verify_fn(cmd);
+    }
+}
+
+bool AP_Mission::start_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return start_command_do_winch(cmd);
+    default:
+        return _cmd_start_fn(cmd);
+    }
+}
+
 #endif
 
         default:
@@ -1582,6 +2242,50 @@ bool AP_Mission::mission_cmd_to_mavlink_int(const AP_Mission::Mission_Command& c
 #else
         // delay at waypoint in seconds
         packet.param1 = cmd.p1;
+
+// Handle DO_WINCH command
+bool AP_Mission::start_command_do_winch(const Mission_Command& cmd) {
+    // Retrieve parameters
+    int winch_no = (int)cmd.content.winch.num;
+    float action = cmd.content.winch.action;
+    float length = cmd.content.winch.release_length;
+    float rate = cmd.content.winch.release_rate;
+
+    // Log execution
+    GCS_SEND_TEXT(MAV_SEVERITY_INFO, "Executing DO_WINCH: winch_no=%d, action=%.2f, length=%.2f, rate=%.2f", 
+                  winch_no, action, length, rate);
+
+    // Validate winch number
+    if (winch_no < 0 || winch_no >= MAX_WINCHES) {
+        GCS_SEND_TEXT(MAV_SEVERITY_ERROR, "Invalid winch number");
+        return false;
+    }
+
+    // Add hardware control logic here
+    // Example:
+    // winch_controller[winch_no].set_action(action, length, rate);
+
+    return true;
+}
+
+bool AP_Mission::verify_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return true;
+    default:
+        return _cmd_verify_fn(cmd);
+    }
+}
+
+bool AP_Mission::start_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return start_command_do_winch(cmd);
+    default:
+        return _cmd_start_fn(cmd);
+    }
+}
+
 #endif
         break;
 
@@ -1785,6 +2489,50 @@ bool AP_Mission::mission_cmd_to_mavlink_int(const AP_Mission::Mission_Command& c
         packet.param1 = cmd.content.gripper.num;        // gripper number
         packet.param2 = cmd.content.gripper.action;     // action 0=release, 1=grab.  See GRIPPER_ACTION enum
         break;
+
+// Handle DO_WINCH command
+bool AP_Mission::start_command_do_winch(const Mission_Command& cmd) {
+    // Retrieve parameters
+    int winch_no = (int)cmd.content.winch.num;
+    float action = cmd.content.winch.action;
+    float length = cmd.content.winch.release_length;
+    float rate = cmd.content.winch.release_rate;
+
+    // Log execution
+    GCS_SEND_TEXT(MAV_SEVERITY_INFO, "Executing DO_WINCH: winch_no=%d, action=%.2f, length=%.2f, rate=%.2f", 
+                  winch_no, action, length, rate);
+
+    // Validate winch number
+    if (winch_no < 0 || winch_no >= MAX_WINCHES) {
+        GCS_SEND_TEXT(MAV_SEVERITY_ERROR, "Invalid winch number");
+        return false;
+    }
+
+    // Add hardware control logic here
+    // Example:
+    // winch_controller[winch_no].set_action(action, length, rate);
+
+    return true;
+}
+
+bool AP_Mission::verify_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return true;
+    default:
+        return _cmd_verify_fn(cmd);
+    }
+}
+
+bool AP_Mission::start_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return start_command_do_winch(cmd);
+    default:
+        return _cmd_start_fn(cmd);
+    }
+}
+
 #endif
 
     case MAV_CMD_DO_GUIDED_LIMITS:                      // MAV ID: 222
@@ -1832,6 +2580,50 @@ bool AP_Mission::mission_cmd_to_mavlink_int(const AP_Mission::Mission_Command& c
     case MAV_CMD_NAV_PAYLOAD_PLACE:
         packet.param1 = cmd.p1*0.01f; // copy max-descend parameter (cm->m)
         break;
+
+// Handle DO_WINCH command
+bool AP_Mission::start_command_do_winch(const Mission_Command& cmd) {
+    // Retrieve parameters
+    int winch_no = (int)cmd.content.winch.num;
+    float action = cmd.content.winch.action;
+    float length = cmd.content.winch.release_length;
+    float rate = cmd.content.winch.release_rate;
+
+    // Log execution
+    GCS_SEND_TEXT(MAV_SEVERITY_INFO, "Executing DO_WINCH: winch_no=%d, action=%.2f, length=%.2f, rate=%.2f", 
+                  winch_no, action, length, rate);
+
+    // Validate winch number
+    if (winch_no < 0 || winch_no >= MAX_WINCHES) {
+        GCS_SEND_TEXT(MAV_SEVERITY_ERROR, "Invalid winch number");
+        return false;
+    }
+
+    // Add hardware control logic here
+    // Example:
+    // winch_controller[winch_no].set_action(action, length, rate);
+
+    return true;
+}
+
+bool AP_Mission::verify_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return true;
+    default:
+        return _cmd_verify_fn(cmd);
+    }
+}
+
+bool AP_Mission::start_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return start_command_do_winch(cmd);
+    default:
+        return _cmd_start_fn(cmd);
+    }
+}
+
 #endif
 
     case MAV_CMD_NAV_SET_YAW_SPEED:
@@ -1867,6 +2659,50 @@ bool AP_Mission::mission_cmd_to_mavlink_int(const AP_Mission::Mission_Command& c
         packet.x = cmd.content.nav_script_time.arg3;
         packet.y = cmd.content.nav_script_time.arg4;
         break;
+
+// Handle DO_WINCH command
+bool AP_Mission::start_command_do_winch(const Mission_Command& cmd) {
+    // Retrieve parameters
+    int winch_no = (int)cmd.content.winch.num;
+    float action = cmd.content.winch.action;
+    float length = cmd.content.winch.release_length;
+    float rate = cmd.content.winch.release_rate;
+
+    // Log execution
+    GCS_SEND_TEXT(MAV_SEVERITY_INFO, "Executing DO_WINCH: winch_no=%d, action=%.2f, length=%.2f, rate=%.2f", 
+                  winch_no, action, length, rate);
+
+    // Validate winch number
+    if (winch_no < 0 || winch_no >= MAX_WINCHES) {
+        GCS_SEND_TEXT(MAV_SEVERITY_ERROR, "Invalid winch number");
+        return false;
+    }
+
+    // Add hardware control logic here
+    // Example:
+    // winch_controller[winch_no].set_action(action, length, rate);
+
+    return true;
+}
+
+bool AP_Mission::verify_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return true;
+    default:
+        return _cmd_verify_fn(cmd);
+    }
+}
+
+bool AP_Mission::start_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return start_command_do_winch(cmd);
+    default:
+        return _cmd_start_fn(cmd);
+    }
+}
+
 #endif
 
     case MAV_CMD_NAV_ATTITUDE_TIME:
@@ -1961,6 +2797,50 @@ bool AP_Mission::mission_cmd_to_mavlink_int(const AP_Mission::Mission_Command& c
         if (cmd.content.location.terrain_alt) {
             return false;
         }
+
+// Handle DO_WINCH command
+bool AP_Mission::start_command_do_winch(const Mission_Command& cmd) {
+    // Retrieve parameters
+    int winch_no = (int)cmd.content.winch.num;
+    float action = cmd.content.winch.action;
+    float length = cmd.content.winch.release_length;
+    float rate = cmd.content.winch.release_rate;
+
+    // Log execution
+    GCS_SEND_TEXT(MAV_SEVERITY_INFO, "Executing DO_WINCH: winch_no=%d, action=%.2f, length=%.2f, rate=%.2f", 
+                  winch_no, action, length, rate);
+
+    // Validate winch number
+    if (winch_no < 0 || winch_no >= MAX_WINCHES) {
+        GCS_SEND_TEXT(MAV_SEVERITY_ERROR, "Invalid winch number");
+        return false;
+    }
+
+    // Add hardware control logic here
+    // Example:
+    // winch_controller[winch_no].set_action(action, length, rate);
+
+    return true;
+}
+
+bool AP_Mission::verify_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return true;
+    default:
+        return _cmd_verify_fn(cmd);
+    }
+}
+
+bool AP_Mission::start_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return start_command_do_winch(cmd);
+    default:
+        return _cmd_start_fn(cmd);
+    }
+}
+
 #endif
     }
 
@@ -2266,6 +3146,50 @@ bool AP_Mission::get_last_jump_tag(uint16_t &tag, uint16_t &age) const
     age = _jump_tag.age;
     return true;
 }
+
+// Handle DO_WINCH command
+bool AP_Mission::start_command_do_winch(const Mission_Command& cmd) {
+    // Retrieve parameters
+    int winch_no = (int)cmd.content.winch.num;
+    float action = cmd.content.winch.action;
+    float length = cmd.content.winch.release_length;
+    float rate = cmd.content.winch.release_rate;
+
+    // Log execution
+    GCS_SEND_TEXT(MAV_SEVERITY_INFO, "Executing DO_WINCH: winch_no=%d, action=%.2f, length=%.2f, rate=%.2f", 
+                  winch_no, action, length, rate);
+
+    // Validate winch number
+    if (winch_no < 0 || winch_no >= MAX_WINCHES) {
+        GCS_SEND_TEXT(MAV_SEVERITY_ERROR, "Invalid winch number");
+        return false;
+    }
+
+    // Add hardware control logic here
+    // Example:
+    // winch_controller[winch_no].set_action(action, length, rate);
+
+    return true;
+}
+
+bool AP_Mission::verify_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return true;
+    default:
+        return _cmd_verify_fn(cmd);
+    }
+}
+
+bool AP_Mission::start_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return start_command_do_winch(cmd);
+    default:
+        return _cmd_start_fn(cmd);
+    }
+}
+
 #endif
 
 // init_jump_tracking - initialise jump_tracking variables
@@ -2806,10 +3730,98 @@ const char *AP_Mission::Mission_Command::type() const
 #if AP_GRIPPER_ENABLED
     case MAV_CMD_DO_GRIPPER:
         return "Gripper";
+
+// Handle DO_WINCH command
+bool AP_Mission::start_command_do_winch(const Mission_Command& cmd) {
+    // Retrieve parameters
+    int winch_no = (int)cmd.content.winch.num;
+    float action = cmd.content.winch.action;
+    float length = cmd.content.winch.release_length;
+    float rate = cmd.content.winch.release_rate;
+
+    // Log execution
+    GCS_SEND_TEXT(MAV_SEVERITY_INFO, "Executing DO_WINCH: winch_no=%d, action=%.2f, length=%.2f, rate=%.2f", 
+                  winch_no, action, length, rate);
+
+    // Validate winch number
+    if (winch_no < 0 || winch_no >= MAX_WINCHES) {
+        GCS_SEND_TEXT(MAV_SEVERITY_ERROR, "Invalid winch number");
+        return false;
+    }
+
+    // Add hardware control logic here
+    // Example:
+    // winch_controller[winch_no].set_action(action, length, rate);
+
+    return true;
+}
+
+bool AP_Mission::verify_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return true;
+    default:
+        return _cmd_verify_fn(cmd);
+    }
+}
+
+bool AP_Mission::start_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return start_command_do_winch(cmd);
+    default:
+        return _cmd_start_fn(cmd);
+    }
+}
+
 #endif
 #if AP_MISSION_NAV_PAYLOAD_PLACE_ENABLED
     case MAV_CMD_NAV_PAYLOAD_PLACE:
         return "PayloadPlace";
+
+// Handle DO_WINCH command
+bool AP_Mission::start_command_do_winch(const Mission_Command& cmd) {
+    // Retrieve parameters
+    int winch_no = (int)cmd.content.winch.num;
+    float action = cmd.content.winch.action;
+    float length = cmd.content.winch.release_length;
+    float rate = cmd.content.winch.release_rate;
+
+    // Log execution
+    GCS_SEND_TEXT(MAV_SEVERITY_INFO, "Executing DO_WINCH: winch_no=%d, action=%.2f, length=%.2f, rate=%.2f", 
+                  winch_no, action, length, rate);
+
+    // Validate winch number
+    if (winch_no < 0 || winch_no >= MAX_WINCHES) {
+        GCS_SEND_TEXT(MAV_SEVERITY_ERROR, "Invalid winch number");
+        return false;
+    }
+
+    // Add hardware control logic here
+    // Example:
+    // winch_controller[winch_no].set_action(action, length, rate);
+
+    return true;
+}
+
+bool AP_Mission::verify_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return true;
+    default:
+        return _cmd_verify_fn(cmd);
+    }
+}
+
+bool AP_Mission::start_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return start_command_do_winch(cmd);
+    default:
+        return _cmd_start_fn(cmd);
+    }
+}
+
 #endif
     case MAV_CMD_DO_PARACHUTE:
         return "Parachute";
@@ -2834,6 +3846,50 @@ const char *AP_Mission::Mission_Command::type() const
 #if AP_SCRIPTING_ENABLED
     case MAV_CMD_NAV_SCRIPT_TIME:
         return "NavScriptTime";
+
+// Handle DO_WINCH command
+bool AP_Mission::start_command_do_winch(const Mission_Command& cmd) {
+    // Retrieve parameters
+    int winch_no = (int)cmd.content.winch.num;
+    float action = cmd.content.winch.action;
+    float length = cmd.content.winch.release_length;
+    float rate = cmd.content.winch.release_rate;
+
+    // Log execution
+    GCS_SEND_TEXT(MAV_SEVERITY_INFO, "Executing DO_WINCH: winch_no=%d, action=%.2f, length=%.2f, rate=%.2f", 
+                  winch_no, action, length, rate);
+
+    // Validate winch number
+    if (winch_no < 0 || winch_no >= MAX_WINCHES) {
+        GCS_SEND_TEXT(MAV_SEVERITY_ERROR, "Invalid winch number");
+        return false;
+    }
+
+    // Add hardware control logic here
+    // Example:
+    // winch_controller[winch_no].set_action(action, length, rate);
+
+    return true;
+}
+
+bool AP_Mission::verify_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return true;
+    default:
+        return _cmd_verify_fn(cmd);
+    }
+}
+
+bool AP_Mission::start_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return start_command_do_winch(cmd);
+    default:
+        return _cmd_start_fn(cmd);
+    }
+}
+
 #endif
     case MAV_CMD_NAV_ATTITUDE_TIME:
         return "NavAttitudeTime";
@@ -2858,6 +3914,50 @@ const char *AP_Mission::Mission_Command::type() const
     default:
 #if CONFIG_HAL_BOARD == HAL_BOARD_SITL
         AP_HAL::panic("Mission command with ID %u has no string", id);
+
+// Handle DO_WINCH command
+bool AP_Mission::start_command_do_winch(const Mission_Command& cmd) {
+    // Retrieve parameters
+    int winch_no = (int)cmd.content.winch.num;
+    float action = cmd.content.winch.action;
+    float length = cmd.content.winch.release_length;
+    float rate = cmd.content.winch.release_rate;
+
+    // Log execution
+    GCS_SEND_TEXT(MAV_SEVERITY_INFO, "Executing DO_WINCH: winch_no=%d, action=%.2f, length=%.2f, rate=%.2f", 
+                  winch_no, action, length, rate);
+
+    // Validate winch number
+    if (winch_no < 0 || winch_no >= MAX_WINCHES) {
+        GCS_SEND_TEXT(MAV_SEVERITY_ERROR, "Invalid winch number");
+        return false;
+    }
+
+    // Add hardware control logic here
+    // Example:
+    // winch_controller[winch_no].set_action(action, length, rate);
+
+    return true;
+}
+
+bool AP_Mission::verify_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return true;
+    default:
+        return _cmd_verify_fn(cmd);
+    }
+}
+
+bool AP_Mission::start_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return start_command_do_winch(cmd);
+    default:
+        return _cmd_start_fn(cmd);
+    }
+}
+
 #endif
         return "?";
     }
@@ -3073,6 +4173,50 @@ void AP_Mission::format_conversion(uint8_t tag_byte, const Mission_Command &cmd,
         new_fmt.arg4 = 0;
         memcpy(packed_content.bytes, (void*)&new_fmt, sizeof(new_fmt));
     }
+
+// Handle DO_WINCH command
+bool AP_Mission::start_command_do_winch(const Mission_Command& cmd) {
+    // Retrieve parameters
+    int winch_no = (int)cmd.content.winch.num;
+    float action = cmd.content.winch.action;
+    float length = cmd.content.winch.release_length;
+    float rate = cmd.content.winch.release_rate;
+
+    // Log execution
+    GCS_SEND_TEXT(MAV_SEVERITY_INFO, "Executing DO_WINCH: winch_no=%d, action=%.2f, length=%.2f, rate=%.2f", 
+                  winch_no, action, length, rate);
+
+    // Validate winch number
+    if (winch_no < 0 || winch_no >= MAX_WINCHES) {
+        GCS_SEND_TEXT(MAV_SEVERITY_ERROR, "Invalid winch number");
+        return false;
+    }
+
+    // Add hardware control logic here
+    // Example:
+    // winch_controller[winch_no].set_action(action, length, rate);
+
+    return true;
+}
+
+bool AP_Mission::verify_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return true;
+    default:
+        return _cmd_verify_fn(cmd);
+    }
+}
+
+bool AP_Mission::start_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return start_command_do_winch(cmd);
+    default:
+        return _cmd_start_fn(cmd);
+    }
+}
+
 #endif
 }
 
@@ -3097,6 +4241,50 @@ bool AP_Mission::jump_to_abort_landing_sequence(void)
     GCS_SEND_TEXT(MAV_SEVERITY_WARNING, "Unable to start find a landing abort sequence");
     return false;
 }
+
+// Handle DO_WINCH command
+bool AP_Mission::start_command_do_winch(const Mission_Command& cmd) {
+    // Retrieve parameters
+    int winch_no = (int)cmd.content.winch.num;
+    float action = cmd.content.winch.action;
+    float length = cmd.content.winch.release_length;
+    float rate = cmd.content.winch.release_rate;
+
+    // Log execution
+    GCS_SEND_TEXT(MAV_SEVERITY_INFO, "Executing DO_WINCH: winch_no=%d, action=%.2f, length=%.2f, rate=%.2f", 
+                  winch_no, action, length, rate);
+
+    // Validate winch number
+    if (winch_no < 0 || winch_no >= MAX_WINCHES) {
+        GCS_SEND_TEXT(MAV_SEVERITY_ERROR, "Invalid winch number");
+        return false;
+    }
+
+    // Add hardware control logic here
+    // Example:
+    // winch_controller[winch_no].set_action(action, length, rate);
+
+    return true;
+}
+
+bool AP_Mission::verify_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return true;
+    default:
+        return _cmd_verify_fn(cmd);
+    }
+}
+
+bool AP_Mission::start_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return start_command_do_winch(cmd);
+    default:
+        return _cmd_start_fn(cmd);
+    }
+}
+
 #endif // AP_SCRIPTING_ENABLED
 
 
@@ -3111,6 +4299,50 @@ AP_Mission *mission()
     return AP_Mission::get_singleton();
 }
 
+}
+
+
+// Handle DO_WINCH command
+bool AP_Mission::start_command_do_winch(const Mission_Command& cmd) {
+    // Retrieve parameters
+    int winch_no = (int)cmd.content.winch.num;
+    float action = cmd.content.winch.action;
+    float length = cmd.content.winch.release_length;
+    float rate = cmd.content.winch.release_rate;
+
+    // Log execution
+    GCS_SEND_TEXT(MAV_SEVERITY_INFO, "Executing DO_WINCH: winch_no=%d, action=%.2f, length=%.2f, rate=%.2f", 
+                  winch_no, action, length, rate);
+
+    // Validate winch number
+    if (winch_no < 0 || winch_no >= MAX_WINCHES) {
+        GCS_SEND_TEXT(MAV_SEVERITY_ERROR, "Invalid winch number");
+        return false;
+    }
+
+    // Add hardware control logic here
+    // Example:
+    // winch_controller[winch_no].set_action(action, length, rate);
+
+    return true;
+}
+
+bool AP_Mission::verify_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return true;
+    default:
+        return _cmd_verify_fn(cmd);
+    }
+}
+
+bool AP_Mission::start_command(const Mission_Command& cmd) {
+    switch (cmd.id) {
+    case MAV_CMD_DO_WINCH:
+        return start_command_do_winch(cmd);
+    default:
+        return _cmd_start_fn(cmd);
+    }
 }
 
 #endif  // AP_MISSION_ENABLED
